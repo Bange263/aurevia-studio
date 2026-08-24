@@ -1,11 +1,11 @@
 /*
-  EDIT THIS FILE BEFORE PUBLISHING.
+  Public storefront configuration.
   Keep the quotation marks around each value.
 */
 window.AUREVIA_CONFIG = {
   supportEmail: "if425785@gmail.com",
-  storeUrl: "",
+  storeUrl: "https://payhip.com/b/TpkFC",
   sellerDisplayName: "Aurevia Studio",
-  productPrice: "€79",
+  productPrice: "€29.99",
   productVersion: "1.2.0"
 };
