@@ -11,7 +11,7 @@
     if (node.tagName === 'A') node.href = `mailto:${supportEmail}`;
   });
   document.querySelectorAll('[data-version]').forEach((node) => node.textContent = cfg.productVersion || '1.2.0');
-  document.querySelectorAll('[data-price]').forEach((node) => node.textContent = cfg.productPrice || '€79');
+  document.querySelectorAll('[data-price]').forEach((node) => node.textContent = cfg.productPrice || '€29.99');
 
   document.querySelectorAll('[data-store-link]').forEach((link) => {
     if (storeUrl) {
@@ -74,9 +74,10 @@
   lightbox?.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
 
-  // Use the current public URL for Open Graph once deployed.
   const ogUrl = document.querySelector('meta[property="og:url"]');
-  if (ogUrl) ogUrl.content = window.location.href;
+  if (ogUrl && !ogUrl.content) ogUrl.content = window.location.href;
   const ogImage = document.querySelector('meta[property="og:image"]');
-  if (ogImage) ogImage.content = new URL('assets/images/cover-1600x900.png', window.location.href).href;
+  if (ogImage && !/^https?:\/\//i.test(ogImage.content)) {
+    ogImage.content = new URL(ogImage.content || 'assets/images/cover-1600x900.png', window.location.href).href;
+  }
 })();
