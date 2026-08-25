@@ -2,6 +2,8 @@
   const cfg = window.AUREVIA_CONFIG || {};
   const supportEmail = cfg.supportEmail || 'if425785@gmail.com';
   const storeUrl = (cfg.storeUrl || '').trim();
+  const productVersion = cfg.productVersion || '1.2.1';
+  const productPrice = cfg.productPrice || '€29.99';
 
   document.querySelectorAll('[data-support-email]').forEach((node) => {
     node.textContent = supportEmail;
@@ -10,8 +12,8 @@
   document.querySelectorAll('[data-support-link]').forEach((node) => {
     if (node.tagName === 'A') node.href = `mailto:${supportEmail}`;
   });
-  document.querySelectorAll('[data-version]').forEach((node) => node.textContent = cfg.productVersion || '1.2.0');
-  document.querySelectorAll('[data-price]').forEach((node) => node.textContent = cfg.productPrice || '€29.99');
+  document.querySelectorAll('[data-version]').forEach((node) => node.textContent = productVersion);
+  document.querySelectorAll('[data-price]').forEach((node) => node.textContent = productPrice);
 
   document.querySelectorAll('[data-store-link]').forEach((link) => {
     if (storeUrl) {
@@ -79,5 +81,21 @@
   const ogImage = document.querySelector('meta[property="og:image"]');
   if (ogImage && !/^https?:\/\//i.test(ogImage.content)) {
     ogImage.content = new URL(ogImage.content || 'assets/images/cover-1600x900.png', window.location.href).href;
+  }
+
+  const productSchema = document.querySelector('script[type="application/ld+json"]');
+  if (productSchema) {
+    try {
+      const schema = JSON.parse(productSchema.textContent);
+      if (schema?.['@type'] === 'Product') {
+        schema.sku = `AUREVIA-${productVersion}`;
+        if (schema.offers) {
+          schema.offers.url = storeUrl || schema.offers.url;
+          schema.offers.price = productPrice.replace(/[^0-9.,]/g, '').replace(',', '.');
+          schema.offers.priceCurrency = 'EUR';
+        }
+        productSchema.textContent = JSON.stringify(schema);
+      }
+    } catch (_) { /* Static schema remains usable if parsing ever fails. */ }
   }
 })();
