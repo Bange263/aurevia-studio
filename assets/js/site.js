@@ -2,7 +2,7 @@
   const cfg = window.AUREVIA_CONFIG || {};
   const supportEmail = cfg.supportEmail || 'if425785@gmail.com';
   const storeUrl = (cfg.storeUrl || '').trim();
-  const productVersion = cfg.productVersion || '1.2.1';
+  const productVersion = cfg.productVersion || '1.2.0';
   const productPrice = cfg.productPrice || '€29.99';
 
   document.querySelectorAll('[data-support-email]').forEach((node) => {
@@ -14,6 +14,13 @@
   });
   document.querySelectorAll('[data-version]').forEach((node) => node.textContent = productVersion);
   document.querySelectorAll('[data-price]').forEach((node) => node.textContent = productPrice);
+
+  document.querySelectorAll('strong').forEach((node) => {
+    node.textContent = node.textContent.replace(
+      /Aurevia-Theme-v\d+\.\d+\.\d+\.zip/g,
+      `Aurevia-Theme-v${productVersion}.zip`
+    );
+  });
 
   document.querySelectorAll('[data-store-link]').forEach((link) => {
     if (storeUrl) {
