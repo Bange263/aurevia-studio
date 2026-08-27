@@ -7,5 +7,5 @@ window.AUREVIA_CONFIG = {
   storeUrl: "https://payhip.com/buy?link=TpkFC",
   sellerDisplayName: "Aurevia Studio",
   productPrice: "€29.99",
-  productVersion: "1.2.1"
+  productVersion: "1.2.0"
 };
